@@ -19,14 +19,14 @@ function List() {
   const [filterStatus, setFilterStatus] = useState('all');
 
   // Constants 
-  const uri = /*process.env.REACT_APP_BACKEND_URI*/ 'http://localhost:5000';
+  
   const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   // Fetch tasks from the server (GET)
   const fetchData = async () => {
     setError(''); // Reset error message
     try {
-      const response = await axios.get(`${uri}/tasks`);
+      const response = await axios.get(`${import.meta.env.VITE_APP_URL}/tasks`);
       const sortedTaskList = response.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
       const formattedTaskList = sortedTaskList.map(task => ({
         ...task,
