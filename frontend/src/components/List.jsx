@@ -325,14 +325,14 @@ function List() {
       <div id='container' onClick={() => setEditingId(null)}>
         {error && <div className="error">{error}</div>}
         <div 
-          data-testid="newTaskForm"
+          data-testId="newTaskForm"
           className="inputContainer">
           <input
             autoFocus
             className="newTask"
             type="text"
             value={newTask}
-          data-testid="new-task-form"
+          data-testId="new-task-form"
             onKeyDown={(e) => e.key === 'Enter' && addTask()}
             placeholder="Add a new task"
           />
