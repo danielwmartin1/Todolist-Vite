@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import axios from 'axios';
 import TaskRepository from './repositories/TaskRepository.js';
+import dotenv from 'dotenv/config';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -15,7 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb+srv://danielwmartin1:Mack2020!!@cluster0.ikgzxfz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {});
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      throw new Error('MONGO_URI environment variable is not set');
+    }
+    await mongoose.connect(mongoUri, {});
     console.log('MongoDB connected...');
   } catch (err) {
     console.error('Error connecting to MongoDB:', err.message);
