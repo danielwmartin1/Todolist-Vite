@@ -19,7 +19,7 @@ function List() {
   const [filterStatus, setFilterStatus] = useState('all');
 
   // Constants 
-  const uri = 'https://server-todo-henna.vercel.app/'; // Backend URI
+  const uri = 'https://server-todo-henna.vercel.app'; // Backend URI
   const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   // Fetch tasks from the server (GET)
