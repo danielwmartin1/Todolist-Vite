@@ -351,7 +351,7 @@ function List() {
       <div id='container' onClick={() => setEditingId(null)}>
         {error && <div className="error">{error}</div>}
         <div 
-          className="inputContainer">
+          className="inputContainer addContainer">
           <input
             autoFocus
             className="newTask"
@@ -368,6 +368,7 @@ function List() {
             onChange={(e) => setDueDate(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && addTask()}
             min={new Date().toISOString().slice(0, 10)}
+            placeholder="Due Date"
           />
           <select 
             className="newTask"
@@ -468,6 +469,7 @@ function List() {
                           <button
                             className="saveButton"
                             onClick={() => updateTask(task._id)}
+                            onKeyDown={(e) => e.key === 'Enter' && updateTask(task._id)}
                           >Save</button>
                         </div>
                       ) : (
@@ -531,6 +533,7 @@ function List() {
                               type="text"
                               value={editedTask}
                               onChange={(e) => setEditedTask(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && updateTask(task._id)}
                             />
                           </div>
                           <div className="editContainer">
@@ -540,6 +543,7 @@ function List() {
                               type="datetime-local"
                               value={editedDueDate}
                               onChange={(e) => setEditedDueDate(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && updateTask(task._id)}
                               min={getCurrentDateTime()}
                             />
                           </div>
@@ -549,6 +553,7 @@ function List() {
                               className="editTask"
                               value={editedPriority}
                               onChange={(e) => setEditedPriority(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && updateTask(task._id)}
                             >
                               <option value="Low">Low</option>
                               <option value="Medium">Medium</option>
@@ -558,6 +563,7 @@ function List() {
                           <button
                             className="saveButton"
                             onClick={() => updateTask(task._id)}
+                            onKeyDown={(e) => e.key === 'Enter' && updateTask(task._id)}
                           >Save</button>
                         </div>
                       ) : (

@@ -389,6 +389,25 @@ ul {
   padding: 0;
 }
 
+.addContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+
+
+@media (min-width: 1024px) {
+  .addContainer {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+}
+
 /* Media Queries */
 @media (max-width: 431px) {
   .addButton, .editButton, .removeButton, .saveButton {
@@ -464,6 +483,11 @@ ul {
   .addButton, .editButton, .removeButton, .saveButton {
     font-size: 1rem;
     padding: 0.5rem;
+  }
+
+  .addContainer {
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .completedTaskTitle {
