@@ -19,7 +19,7 @@ function List() {
   const [filterStatus, setFilterStatus] = useState('all');
 
   // Constants 
-  const uri = 'https://server-todo-danielwmartin1-danielwmartin1s-projects.vercel.app/'; // Backend URI
+  const uri = 'https://server-todo-henna.vercel.app/'; // Backend URI
   const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   // Fetch tasks from the server (GET)
@@ -325,14 +325,14 @@ function List() {
       <div id='container' onClick={() => setEditingId(null)}>
         {error && <div className="error">{error}</div>}
         <div 
-          data-testId="newTaskForm"
+          data-testid="newTaskForm"
           className="inputContainer">
           <input
             autoFocus
             className="newTask"
             type="text"
             value={newTask}
-          data-testId="new-task-form"
+          data-testid="new-task-form"
             onKeyDown={(e) => e.key === 'Enter' && addTask()}
             placeholder="Add a new task"
           />
