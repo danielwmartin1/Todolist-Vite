@@ -333,13 +333,14 @@ function List() {
             type="text"
             value={newTask}
           data-testid="new-task-form"
+            onChange={(e) => setNewTask(e.target.value)} // Add this line to update state
             onKeyDown={(e) => e.key === 'Enter' && addTask()}
             placeholder="Add a new task"
           />
           <input
             className="newTask"
             type="date"
-            value={dueDate ? new Date(dueDate).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10)}
+            value={dueDate ? new Date(dueDate).toISOString().slice(0, 10) : ''}
             onChange={(e) => setDueDate(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && addTask()}
             min={new Date().toISOString().slice(0, 10)}
