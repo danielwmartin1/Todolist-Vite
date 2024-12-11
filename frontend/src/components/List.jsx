@@ -479,8 +479,8 @@ function List() {
                             {task.dueDate && <span className={`timestamp ${isOverdue ? 'overdue' : 'due'}`}>Due: {task.dueDate}</span>}
                             <span className="timestamp created">Created: {task.createdAt}</span>
                             <span className="timestamp updated">Updated: {task.updatedAt}</span>
-                            <span className="timestamp priority">Priority: {task.priority}</span> 
-                            {task.completed && <span className="timestamp completedTimestamp">Completed: {task.completedAt}</span>}
+                            <span className="timestamp priority">Priority: {task.priority}</span>
+                            {task.completed && <span className="timestamp completed">Completed: {task.completedAt}</span>}
                           </div>
                         </div>
                       )}
@@ -571,10 +571,10 @@ function List() {
                           <div className="titleDiv"><span className="taskTitle">{task.title}</span></div>
                           <div className="timestampContainer">
                             {task.dueDate && <span className={`timestamp ${isOverdue ? 'overdue' : ''}`}>Due: {task.dueDate}</span>}
-                            <span className="timestamp">Created: {task.createdAt}</span>
-                            <span className="timestamp">Updated: {task.updatedAt}</span>
-                            <span className="timestamp">Priority: {task.priority}</span>
-                            {task.completed && <span className="timestamp">Completed: {task.completedAt}</span>}
+                            <span className="timestamp created">Created: {task.createdAt}</span>
+                            <span className="timestamp updated">Updated: {task.updatedAt}</span>
+                            <span className="timestamp priority">Priority: {task.priority}</span>
+                            {task.completed && <span className="timestamp completed">Completed: {task.completedAt}</span>}
                           </div>
                         </div>
                       )}

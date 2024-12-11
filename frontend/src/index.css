@@ -1,4 +1,3 @@
-/* Base styles */
 body {
   background-color: #afb2bc;
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -147,12 +146,13 @@ select {
 }
 
 .completedTimestampContainer {
-  align-items: flex-start;
+  align-items: flex-start; /* Changed from start to flex-start */
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 0 5%;
 }
+
 
 .container {
   align-items: center;
@@ -213,22 +213,6 @@ select {
   text-align: center;
 }
 
-.footer {
-  background-color: black;
-  bottom: 0;
-  color: white;
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.25rem !important;
-  padding: 0.75rem;
-  text-align: center;
-  width: 100%;
-}
-
-.footer p {
-  margin: 0;
-  padding: 0.5rem;
-}
-
 h1, h2 {
   background-color: black;
   color: white;
@@ -282,14 +266,19 @@ h1, h2 {
 
 .overdue {
   color: red !important;
-  font-size: 1.2rem !important;
+  font-size: 1rem !important;
   font-weight: bold !important;
   font-style: normal !important;
+
 }
 
 .priority {
-  font-style: normal !important;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 2%;
+  text-align: center;
   font-weight: bold !important;
+  font-style: normal !important;
 }
 
 .priorityDiv {
@@ -307,16 +296,8 @@ h1, h2 {
   font-size: 4rem;
   font-weight: 700;
   text-align: center;
-}
-
-.due {
-  color: #555;
-  font-family: 'Arial', sans-serif;
-  font-size: 0.9rem;
-  font-style: italic;
-  font-weight: 500;
-  margin: 2%;
-  text-align: center;
+  width: 100%;
+  border-bottom: 5px ridge hsl(46, 95%, 91%);
 }
 
 .sortBy {
@@ -332,11 +313,11 @@ h1, h2 {
   justify-content: center;
   margin-top: 0;
   width: 100%;
-  margin: 0 2% 1% 0;
+  margin: 0 2% 1% 0; 
 }
 
 .sortSection label {
-  margin: 2%;
+  margin: 2%; 
 }
 
 .sortSection select {
@@ -351,7 +332,7 @@ h1, h2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: 2%;
+  margin-right: 2%; 
 }
 
 .taskDiv {
@@ -360,26 +341,26 @@ h1, h2 {
   justify-content: center;
   max-width: 10% !important;
 }
-
+ 
 .taskItem {
   align-items: center;
   background-color: #faebd6;
   display: flex;
-  gap: 1rem;
+  gap: 1rem; 
   transition: background-color 0.3s ease;
   width: 100%;
-  margin: 0.5rem;
+  margin: 0.5rem; 
 }
 
 .taskItem > * {
-  flex: 1 1 calc(33.333% - 1rem);
+  flex: 1 1 calc(33.333% - 1rem); 
   box-sizing: border-box;
 }
 
 .taskTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-left: 5%;
+  margin-left: 5%; /* Changed to percentage */
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -392,7 +373,7 @@ h1, h2 {
   font-size: 0.9rem;
   font-style: italic;
   font-weight: 500;
-  margin: 2% 2% 2% 10%;
+  margin: 2% 2% 2% 10%; /* Changed to percentage */
   text-align: left;
 }
 
@@ -401,7 +382,7 @@ h1, h2 {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 0 5%;
+  margin: 0 5%; /* Changed to percentage */
 }
 
 ul {
@@ -410,51 +391,97 @@ ul {
   padding: 0;
 }
 
-.addContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
+
+footer {
+  background-color: black;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 0.1rem;
+  text-align: center;
+  border-top: 5px ridge hsl(46, 95%, 91%);
 }
 
 
-@media (max-width: 768px) {
-  .overdue {
-    font-size: 1rem !important;
-  }
 
-  .footer {
+/* Media Queries */
+@media (max-width: 431px) {
+  .addButton, .editButton, .removeButton, .saveButton {
     font-size: 1rem;
     padding: 0.5rem;
   }
 
-  .footer p {
-    padding: 0.25rem;
+  .button {
+    margin-left: 2%; /* Changed to percentage */
   }
-}
 
-@media (max-width: 431px) {
+  .completedTaskTitle {
+    font-size: 1.2rem;
+  }
+
+  .container {
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .editDiv {
+    flex-direction: column !important;
+  }
+
+  .label {
+    margin: 2%; /* Changed to percentage */
+  }
+
+  .listItem {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  select, input, .editTask, .newTask {
+    font-size: 0.7rem !important;
+  }
+
+  .timestamp {
+    font-size: 0.8rem !important;
+  }
+
   .overdue {
     font-size: 0.85rem !important;
   }
 
-  .footer {
+  .priorityDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .taskActions {
+    margin-left: auto;
+  }
+
+  .taskItem {
+    margin-left: 2%; /* Changed to percentage */
+    margin-right: auto;
+  }
+
+  .taskPriority {
     font-size: 0.85rem;
-    padding: 0.25rem;
+    padding-left: 2rem;
   }
 
-  .footer p {
-    padding: 0.1rem;
+  .timestamp {
+    font-size: 0.7rem;
   }
-}
 
-@media (min-width: 1024px) {
-  .addContainer {
-    max-width: 80%;
-    margin: 0 auto;
+  .inputContainer, .editContainer {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0;
+    cursor: pointer;
   }
 }
 
@@ -462,11 +489,6 @@ ul {
   .addButton, .editButton, .removeButton, .saveButton {
     font-size: 1rem;
     padding: 0.5rem;
-  }
-
-  .addContainer {
-    flex-direction: column;
-    justify-content: space-between;
   }
 
   .completedTaskTitle {
@@ -487,13 +509,16 @@ ul {
     flex-direction: column !important;
   }
 
-  .projectTitle {
-    font-size: 3rem;
+  .footer p {
+    font-size: 0.8rem
   }
 
-  .footer {
-    font-size: 1rem;
-    padding: 0.5rem;
+  h2 {
+    font-size: 2rem;
+  }
+
+  .projectTitle {
+    font-size: 3.5rem;
   }
 
   input, select, .editTask, .newTask {
@@ -502,8 +527,8 @@ ul {
 
   .listItem > span {
     font-size: 1.3rem;
-    margin-left: 2%;
-    margin-right: 2%;
+    margin-left: 2%; /* Changed to percentage */
+    margin-right: 2%; /* Changed to percentage */
   }
 
   .newTask {
@@ -522,7 +547,7 @@ ul {
     justify-content: center;
     display: flex;
     flex-direction: column;
-    margin: 2% 0;
+    margin: 2% 0; /* Changed to percentage */
   }
 
   .taskActions {
@@ -532,11 +557,11 @@ ul {
 
   .editPriority {
     font-size: 0.85rem;
-    margin-left: 5%;
+    margin-left: 5%; /* Changed to percentage */
   }
 
   .taskItem {
-    margin-left: 2%;
+    margin-left: 2%; /* Changed to percentage */
     margin-right: auto;
   }
 
@@ -551,100 +576,5 @@ ul {
 
   .timestamp {
     font-size: 0.75rem;
-  }
-
-  .due {
-    font-size: 0.75rem;
-  }
-
-  h1, h2 {
-    font-size: 1.5rem;
-  }
-}
-
-@media (max-width: 431px) {
-  .addButton, .editButton, .removeButton, .saveButton {
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
-
-  .button {
-    margin-left: 2%;
-  }
-
-  .completedTaskTitle {
-    font-size: 1.2rem;
-  }
-
-  .container {
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .editDiv {
-    flex-direction: column !important;
-  }
-
-  .label {
-    margin: 2%;
-  }
-
-  .listItem {
-    flex-direction: row;
-    justify-content: flex-start;
-  }
-
-  select, input, .editTask, .newTask {
-    font-size: 0.7rem !important;
-  }
-
-  .priorityDiv {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .taskActions {
-    margin-left: auto;
-  }
-
-  .taskItem {
-    margin-left: 2%;
-    margin-right: auto;
-  }
-
-  .taskPriority {
-    font-size: 0.85rem;
-    padding-left: 2rem;
-  }
-
-  .timestamp {
-    font-size: 0.7rem;
-  }
-
-  .due {
-    font-size: 0.7rem;
-  }
-
-  .inputContainer, .editContainer {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin: 0;
-    cursor: pointer;
-  }
-
-  h1, h2 {
-    font-size: 1.2rem;
-  }
-
-  .footer {
-    font-size: 0.85rem;
-    padding: 0.25rem;
-  }
-
-  .footer p {
-    padding: 0.1rem;
   }
 }
