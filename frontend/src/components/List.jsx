@@ -65,6 +65,7 @@ function List() {
     }
     const clientIp = await fetchClientIp();
     const geolocation = await getGeolocation();
+    console.log('Geolocation:', geolocation);
     const formattedDueDate = dueDate && !isNaN(new Date(dueDate).getTime()) ? format(toZonedTime(new Date(new Date(dueDate).setDate(new Date(dueDate).getDate() + 1)), clientTimeZone), 'MMMM d, yyyy') : '';
     console.log('IP:', clientIp); // Log client IP
     console.log('Timezone:', clientTimeZone); // Log client timezone
@@ -72,17 +73,19 @@ function List() {
     console.log('Request Body:', { title: newTask, dueDate: formattedDueDate, priority }); // Log request body with formatted dueDate
   
     try {
+      const headers = {
+      'Content-Type': 'application/json',
+      'Client-IP': clientIp,
+      'Client-Timezone': clientTimeZone,
+      'Geolocation': JSON.stringify(geolocation),
+      };
+      console.log('Request Headers:', headers); // Log headers
       const response = await axios.post(`${uri}/tasks`, {
-        title: newTask,
-        dueDate: dueDate, // Use the original dueDate instead of formattedDueDate
-        priority,
+      title: newTask,
+      dueDate: dueDate, // Use the original dueDate instead of formattedDueDate
+      priority,
       }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Client-IP': clientIp,
-          'Client-Timezone': clientTimeZone,
-          'Geolocation': JSON.stringify(geolocation),
-        }
+      headers: headers
       });
       const formattedTask = {
         ...response.data,
@@ -113,6 +116,7 @@ function List() {
     setEditedPriority(task.priority);
   };
 
+
   // Update Task (PUT)
   const updateTask = async (taskId) => {
     setError(''); // Reset error message
@@ -125,25 +129,28 @@ function List() {
       return;
     }
     const clientIp = await fetchClientIp(); // Fetch client IP
-    console.log('IP:', clientIp); // Log client IP  
-    console.log('Timezone:', clientTimeZone);
     const geolocation = await getGeolocation(); // Fetch geolocation
     console.log('Geolocation:', geolocation); // Log geolocation
     const formattedDueDate = editedDueDate && !isNaN(new Date(editedDueDate).getTime()) ? format(toZonedTime(new Date(new Date(editedDueDate).setDate(new Date(editedDueDate).getDate() + 1)), clientTimeZone), 'MMMM d, yyyy') : '';
-    console.log('Request Body:', { title: editedTask, dueDate: formattedDueDate, priority: editedPriority }); // Log request body
-  
+    console.log('IP:', clientIp); // Log client IP
+    console.log('Timezone:', clientTimeZone); // Log client timezone
+    console.log('Geolocation:', geolocation);
+    console.log('Request Body:', { title: editedTask, dueDate: formattedDueDate, priority: editedPriority }); // Log request body with formatted dueDate
+
     try {
+      const headers = {
+        'Content-Type': 'application/json',
+        'Client-IP': clientIp,
+        'Client-Timezone': clientTimeZone,
+        'Geolocation': JSON.stringify(geolocation),
+      };
+      console.log('Request Headers:', headers); // Log headers
       const response = await axios.put(`${uri}/tasks/${taskId}`, {
         title: editedTask,
         dueDate: editedDueDate,
         priority: editedPriority
       }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Client-IP': clientIp, // Add client IP
-          'Client-Timezone': clientTimeZone, // Add client timezone
-          'Geolocation': JSON.stringify(geolocation) // Add geolocation
-        }
+        headers: headers
       });
       const updatedTaskList = taskList.map(task => 
         task._id === taskId ? {
@@ -165,18 +172,20 @@ function List() {
     }
   };
 
+
+
   // Toggle completion status (PATCH)
   const toggleTaskCompletion = async (taskId, completed) => {
     setError(''); // Reset error message
     const clientIp = await fetchClientIp(); // Fetch client IP
-    console.log('IP:', clientIp);
-    console.log('Timezone:', clientTimeZone);
     const geolocation = await getGeolocation(); // Fetch geolocation
-    console.log('Geolocation:', geolocation);
-    console.log('Request Body:', { completed: !completed, completedAt: !completed ? toZonedTime(new Date(), clientTimeZone, 'MMMM d, yyyy h:mm a zzz') : null }); // Log request body
-  
+    console.log('Geolocation:', geolocation); // Log geolocation
+    const completedAtTimestamp = !completed ? format(toZonedTime(new Date(), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null;
+    console.log('IP:', clientIp); // Log client IP
+    console.log('Timezone:', clientTimeZone); // Log client timezone
+    console.log('Request Body:', { completed: !completed, completedAt: completedAtTimestamp }); // Log request body
+
     try {
-      const completedAtTimestamp = !completed ? format(toZonedTime(new Date(), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null;
       await axios.patch(`${uri}/tasks/${taskId}`, { completed: !completed, completedAt: completedAtTimestamp }, {
         headers: {
           'Client-IP': clientIp, // Add client IP
@@ -201,16 +210,18 @@ function List() {
       handleError(error);
     }
   };
-  
+
   // Remove task (DELETE)
   const removeTask = async (taskId) => {
     setError(''); // Reset error message
+    const clientIp = await fetchClientIp(); // Fetch client IP
+    const geolocation = await getGeolocation(); // Fetch geolocation
+    console.log('Geolocation:', geolocation); // Log geolocation
+    console.log('IP:', clientIp); // Log client IP
+    console.log('Timezone:', clientTimeZone); // Log client timezone
+    console.log('Request Body:', { taskId }); // Log request body
+
     try {
-      const clientIp = await fetchClientIp(); // Fetch client IP
-      const geolocation = await getGeolocation(); // Fetch geolocation
-      console.log('IP:', clientIp); // Log client IP
-      console.log('Timezone:', clientTimeZone);
-      console.log('Geolocation:', geolocation);  
       await axios.delete(`${uri}/tasks/${taskId}`, {
         headers: {
           'Client-IP': clientIp, // Add client IP
@@ -221,9 +232,10 @@ function List() {
       });
       setTaskList(taskList.filter(task => task._id !== taskId));
     } catch (error) {
-      console.error('Error deleting task:', error);
+      handleError(error);
     }
   };
+
 
   // Function to fetch client IP
   const fetchClientIp = async () => {
@@ -237,33 +249,39 @@ function List() {
   };
 
       // Function to fetch geolocation
-  const getGeolocation = async () => {
-    return new Promise((resolve) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            resolve({ latitude, longitude });
-          },
-          (error) => {
-            if (error.code === error.PERMISSION_DENIED) {
-              console.error('Error getting geolocation: Permission denied');
-            } else if (error.code === error.POSITION_UNAVAILABLE) {
-              console.error('Error getting geolocation: Position unavailable');
-            } else if (error.message === 'Timeout expired') {
-              console.error('Error getting geolocation: Timeout');
-            } else {
-              console.error('Error getting geolocation:', error);
-            }
+      const getGeolocation = async () => {
+        return new Promise((resolve) => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const { latitude, longitude } = position.coords;
+                resolve({ latitude, longitude });
+              },
+              (error) => {
+                switch (error.code) {
+                  case error.PERMISSION_DENIED:
+                    console.error('Error getting geolocation: Permission denied');
+                    break;
+                  case error.POSITION_UNAVAILABLE:
+                    console.error('Error getting geolocation: Position unavailable');
+                    break;
+                  case error.TIMEOUT:
+                    console.error('Error getting geolocation: Timeout');
+                    break;
+                  default:
+                    console.error('Error getting geolocation:', error);
+                }
+                resolve({ latitude: 0, longitude: 0 });
+              },
+              { timeout: 10000 } // Increase timeout duration if needed
+            );
+          } else {
+            console.error('Geolocation is not supported by this browser.');
             resolve({ latitude: 'Unknown', longitude: 'Unknown' });
           }
-        );
-      } else {
-        console.error('Geolocation is not supported by this browser.');
-        resolve({ latitude: 'Unknown', longitude: 'Unknown' });
-      }
-    });
-  };
+        });
+      };
+      
 
 
 
