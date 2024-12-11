@@ -65,7 +65,7 @@ function List() {
     }
     const clientIp = await fetchClientIp();
     const geolocation = await getGeolocation();
-    const formattedDueDate = dueDate && !isNaN(new Date(dueDate).getTime()) ? format(toZonedTime(new Date(new Date(dueDate).setDate(new Date(dueDate).getDate() + 1)), clientTimeZone), 'MMMM d, yyyy') : null;
+    const formattedDueDate = dueDate && !isNaN(new Date(dueDate).getTime()) ? format(toZonedTime(new Date(new Date(dueDate).setDate(new Date(dueDate).getDate() + 1)), clientTimeZone), 'MMMM d, yyyy') : '';
     console.log('IP:', clientIp); // Log client IP
     console.log('Timezone:', clientTimeZone); // Log client timezone
     console.log('Geolocation:', geolocation);
@@ -86,11 +86,11 @@ function List() {
       });
       const formattedTask = {
         ...response.data,
-        updatedAt: response.data.updatedAt ? toZonedTime(new Date(response.data.updatedAt), clientTimeZone, 'MMMM d, yyyy h:mm a zzz') : null,
-        createdAt: response.data.createdAt ? toZonedTime(new Date(response.data.createdAt), clientTimeZone, 'MMMM d, yyyy h:mm a zzz') : null,
-        dueDate: response.data.dueDate ? toZonedTime(new Date(response.data.dueDate), clientTimeZone, 'MMMM d, yyyy') : null,
+        updatedAt: response.data.updatedAt ? format(toZonedTime(new Date(response.data.updatedAt), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null,
+        createdAt: response.data.createdAt ? format(toZonedTime(new Date(response.data.createdAt), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null,
+        dueDate: response.data.dueDate ? format(toZonedTime(new Date(response.data.dueDate), clientTimeZone), 'MMMM d, yyyy') : null,
         priority: response.data.priority || 'Low',
-        completedAt: response.data.completedAt ? toZonedTime(new Date(response.data.completedAt), clientTimeZone, 'MMMM d, yyyy h:mm a zzz') : null,
+        completedAt: response.data.completedAt ? format(toZonedTime(new Date(response.data.completedAt), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null,
       };
       const updatedTaskList = [formattedTask, ...taskList].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
       setTaskList(updatedTaskList);
@@ -109,7 +109,7 @@ function List() {
   const startEditing = (task) => {
     setEditingId(task._id);
     setEditedTask(task.title);
-    setEditedDueDate(task.dueDate ? toZonedTime(new Date(task.dueDate), clientTimeZone, 'MMMM d, yyyy') : null);
+    setEditedDueDate(task.dueDate ? new Date(task.dueDate).toISOString().slice(0, 10) : '');
     setEditedPriority(task.priority);
   };
 
@@ -129,7 +129,7 @@ function List() {
     console.log('Timezone:', clientTimeZone);
     const geolocation = await getGeolocation(); // Fetch geolocation
     console.log('Geolocation:', geolocation); // Log geolocation
-    const formattedDueDate = editedDueDate && !isNaN(new Date(editedDueDate).getTime()) ? format(toZonedTime(new Date(new Date(editedDueDate).setDate(new Date(editedDueDate).getDate() + 1)), clientTimeZone), 'MMMM d, yyyy') : null;
+    const formattedDueDate = editedDueDate && !isNaN(new Date(editedDueDate).getTime()) ? format(toZonedTime(new Date(new Date(editedDueDate).setDate(new Date(editedDueDate).getDate() + 1)), clientTimeZone), 'MMMM d, yyyy') : '';
     console.log('Request Body:', { title: editedTask, dueDate: formattedDueDate, priority: editedPriority }); // Log request body
   
     try {
@@ -148,10 +148,10 @@ function List() {
       const updatedTaskList = taskList.map(task => 
         task._id === taskId ? {
           ...response.data,
-          updatedAt: toZonedTime(new Date(response.data.updatedAt), clientTimeZone, 'MMMM d, yyyy h:mm a zzz'),
-          createdAt: toZonedTime(new Date(response.data.createdAt), clientTimeZone, 'MMMM d, yyyy h:mm a zzz'),
-          dueDate: response.data.dueDate && !isNaN(new Date(response.data.dueDate).getTime()) ? toZonedTime(new Date(response.data.dueDate), clientTimeZone, 'MMMM d, yyyy') : null,
-          completedAt: response.data.completedAt && !isNaN(new Date(response.data.completedAt).getTime()) ? toZonedTime(new Date(response.data.completedAt), clientTimeZone, 'MMMM d, yyyy h:mm a zzz') : null,
+          updatedAt: response.data.updatedAt ? format(toZonedTime(new Date(response.data.updatedAt), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null,
+          createdAt: response.data.createdAt ? format(toZonedTime(new Date(response.data.createdAt), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null,
+          dueDate: response.data.dueDate ? format(toZonedTime(new Date(response.data.dueDate), clientTimeZone), 'MMMM d, yyyy') : null,
+          completedAt: response.data.completedAt ? format(toZonedTime(new Date(response.data.completedAt), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null,
         } : task
       );
       setTaskList(updatedTaskList);
@@ -246,7 +246,15 @@ function List() {
             resolve({ latitude, longitude });
           },
           (error) => {
-            console.error('Error getting geolocation:', error);
+            if (error.code === error.PERMISSION_DENIED) {
+              console.error('Error getting geolocation: Permission denied');
+            } else if (error.code === error.POSITION_UNAVAILABLE) {
+              console.error('Error getting geolocation: Position unavailable');
+            } else if (error.message === 'Timeout expired') {
+              console.error('Error getting geolocation: Timeout');
+            } else {
+              console.error('Error getting geolocation:', error);
+            }
             resolve({ latitude: 'Unknown', longitude: 'Unknown' });
           }
         );
@@ -325,14 +333,12 @@ function List() {
       <div id='container' onClick={() => setEditingId(null)}>
         {error && <div className="error">{error}</div>}
         <div 
-          data-testid="newTaskForm"
           className="inputContainer">
           <input
             autoFocus
             className="newTask"
             type="text"
             value={newTask}
-          data-testid="new-task-form"
             onChange={(e) => setNewTask(e.target.value)} // Add this line to update state
             onKeyDown={(e) => e.key === 'Enter' && addTask()}
             placeholder="Add a new task"
