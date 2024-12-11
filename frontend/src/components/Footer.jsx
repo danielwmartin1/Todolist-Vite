@@ -10,7 +10,7 @@ function Footer() {
     <React.StrictMode>
       <div className="footer">
         <footer>
-          <p>Copyright ⓒ {year}</p>
+          <p>Daniel Martin ⓒ {year}</p>
         </footer>
       </div>
     </React.StrictMode>

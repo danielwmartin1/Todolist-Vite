@@ -224,6 +224,11 @@ select {
   width: 100%;
 }
 
+.footer p {
+  margin: 0;
+  padding: 0.5rem;
+}
+
 h1, h2 {
   background-color: black;
   color: white;
@@ -420,11 +425,29 @@ ul {
   .overdue {
     font-size: 1rem !important;
   }
+
+  .footer {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .footer p {
+    padding: 0.25rem;
+  }
 }
 
 @media (max-width: 431px) {
   .overdue {
     font-size: 0.85rem !important;
+  }
+
+  .footer {
+    font-size: 0.85rem;
+    padding: 0.25rem;
+  }
+
+  .footer p {
+    padding: 0.1rem;
   }
 }
 
@@ -470,6 +493,7 @@ ul {
 
   .footer {
     font-size: 1rem;
+    padding: 0.5rem;
   }
 
   input, select, .editTask, .newTask {
@@ -617,5 +641,10 @@ ul {
 
   .footer {
     font-size: 0.85rem;
+    padding: 0.25rem;
+  }
+
+  .footer p {
+    padding: 0.1rem;
   }
 }
