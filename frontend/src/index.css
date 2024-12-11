@@ -509,6 +509,14 @@ footer {
     flex-direction: column !important;
   }
 
+  .timestamp {
+    font-size: 0.9rem !important;
+  }
+
+  .overdue {
+    font-size: 1.1rem !important;
+  }
+
   .footer p {
     font-size: 0.8rem
   }
