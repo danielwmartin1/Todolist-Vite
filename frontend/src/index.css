@@ -266,7 +266,7 @@ h1, h2 {
 
 .overdue {
   color: red !important;
-  font-size: 1rem !important;
+  font-size: 1.2rem !important;
   font-weight: bold !important;
   font-style: normal !important;
 
@@ -449,7 +449,7 @@ footer {
   }
 
   .overdue {
-    font-size: 0.85rem !important;
+    font-size: 1rem !important;
   }
 
   .priorityDiv {
