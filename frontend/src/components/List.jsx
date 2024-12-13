@@ -352,7 +352,7 @@ function List() {
             <option value="Medium">Medium</option>
             <option value="High">High</option>
           </select>
-          <button onClick={addTask}>Add Task</button>
+          <button className="addButton" onClick={addTask}>Add Task</button>
         </div>
         <div className="sortSection">
           <label className="label" htmlFor="sortTasks">Sort by: </label>
