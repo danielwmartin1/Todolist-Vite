@@ -34,58 +34,32 @@ function List() {
         createdAt: format(toZonedTime(new Date(task.createdAt), clientTimeZone), 'MMMM d, yyyy h:mm a zzz'),
         dueDate: task.dueDate ? format(toZonedTime(new Date(task.dueDate), clientTimeZone), 'MMMM d, yyyy') : null,
         completedAt: task.completedAt ? format(toZonedTime(new Date(task.completedAt), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null,
-        priority: task.priority || 'Low',
       }));
       setTaskList(formattedTaskList);
-    } catch {
+    } catch (error) {
       setError('Failed to fetch tasks');
     }
   };
 
-  // Fetch tasks on component mount
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line
   }, []);
 
-  // Add task (POST)
+  // Add task function
   const addTask = async () => {
-    setError(''); // Reset error message
-    if (!newTask.trim()) {
-      setError('Task title cannot be empty.');
+    if (!newTask || !dueDate) {
+      setError('Please enter a task and due date');
       return;
     }
-    if (dueDate && new Date(dueDate) < new Date()) {
-      setError('Please choose a future date and time.');
+    if (new Date(dueDate) < new Date()) {
+      setError('Due date cannot be in the past');
       return;
     }
-    if (!dueDate) {
-      setError('Please choose a Due Date');
-      return;
-    }
-    const clientIp = await fetchClientIp();
-    const geolocation = await getGeolocation();
-    console.log('Geolocation:', geolocation);
-    const formattedDueDate = dueDate && !isNaN(new Date(dueDate).getTime()) ? format(toZonedTime(new Date(new Date(dueDate).setDate(new Date(dueDate).getDate() + 1)), clientTimeZone), 'MMMM d, yyyy') : '';
-    console.log('IP:', clientIp); // Log client IP
-    console.log('Timezone:', clientTimeZone); // Log client timezone
-    console.log('Geolocation:', geolocation);
-    console.log('Request Body:', { title: newTask, dueDate: formattedDueDate, priority }); // Log request body with formatted dueDate
-  
     try {
-      const headers = {
-      'Content-Type': 'application/json',
-      'Client-IP': clientIp,
-      'Client-Timezone': clientTimeZone,
-      'Geolocation': JSON.stringify(geolocation),
-      };
-      console.log('Request Headers:', headers); // Log headers
       const response = await axios.post(`${uri}/tasks`, {
-      title: newTask,
-      dueDate: dueDate, // Use the original dueDate instead of formattedDueDate
-      priority,
-      }, {
-      headers: headers
+        title: newTask,
+        dueDate,
+        priority,
       });
       const formattedTask = {
         ...response.data,
@@ -100,14 +74,12 @@ function List() {
       setNewTask('');
       setDueDate('');
       setPriority('Low');
-      setEditedDueDate('');
       setError('');
-      setFilterStatus('all');
     } catch (error) {
-      handleError(error);
+      setError('Failed to add task');
     }
   };
-  
+
   // Start editing a task
   const startEditing = (task) => {
     setEditingId(task._id);
@@ -350,14 +322,13 @@ function List() {
     <React.StrictMode>
       <div id='container' onClick={() => setEditingId(null)}>
         {error && <div className="error">{error}</div>}
-        <div 
-          className="inputContainer addContainer">
+        <div className="inputContainer addContainer">
           <input
             autoFocus
             className="newTask"
             type="text"
             value={newTask}
-            onChange={(e) => setNewTask(e.target.value)} // Add this line to update state
+            onChange={(e) => setNewTask(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && addTask()}
             placeholder="Add a new task"
           />
@@ -381,9 +352,8 @@ function List() {
             <option value="Medium">Medium</option>
             <option value="High">High</option>
           </select>
-          <button className='addButton' onClick={addTask}>Add Task</button>
+          <button onClick={addTask}>Add Task</button>
         </div>
-
         <div className="sortSection">
           <label className="label" htmlFor="sortTasks">Sort by: </label>
           <select id="sortTasks" value={sortOrder} onChange={handleSortChange}>
