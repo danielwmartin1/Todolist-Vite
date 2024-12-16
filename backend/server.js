@@ -1,34 +1,33 @@
+// filepath: /C:/Users/danie/OneDrive/Coding/Projects/Todolist-Vite/backend/server.js
 import express from 'express';
-import cors from 'cors';
 import mongoose from 'mongoose';
-import axios from 'axios';
+import cors from 'cors';
 import TaskRepository from './repositories/TaskRepository.js';
-import dotenv from 'dotenv/config';
 
 const app = express();
 const port = process.env.PORT || 5000;
 const ipInfoToken = '50fc15099ad0b0'; // Replace with your IPInfo token
-// spell-checker: disable
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const connectDB = async () => {
-  try {
-    const mongoUri = process.env.MONGO_URI;
-    if (!mongoUri) {
-      throw new Error('MONGO_URI environment variable is not set');
+if (process.env.NODE_ENV !== 'test') {
+  const connectDB = async () => {
+    try {
+      await mongoose.connect('mongodb://localhost:27017/todolist', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      console.log('MongoDB connected...');
+    } catch (err) {
+      console.error('Error connecting to MongoDB:', err.message);
+      process.exit(1);
     }
-    await mongoose.connect(mongoUri, {});
-    console.log('MongoDB connected...');
-  } catch (err) {
-    console.error('Error connecting to MongoDB:', err.message);
-    process.exit(1);
-  }
-};
+  };
 
-connectDB();
+  connectDB();
+}
 
 const taskRepository = new TaskRepository();
 
@@ -44,9 +43,6 @@ const getGeolocation = async (ip) => {
 
 const logRequestDetails = (clientIp, geolocation, requestBody) => {
   console.log('Client IP:', clientIp);
-  console.log('Geolocation:', geolocation);
-  console.log('Request Body:', requestBody);
-  console.log('Client Timezone:', geolocation.timezone);
 };
 
 app.get('/tasks', async (_, res) => {
@@ -62,10 +58,11 @@ app.post('/tasks', async (req, res) => {
   try {
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const requestBody = req.body;
-    const geolocation = clientIp ? await getGeolocation(clientIp) : null;
+    const geolocation = await getGeolocation(clientIp);
     logRequestDetails(clientIp, geolocation, requestBody);
-    const task = await taskRepository.add(requestBody, clientIp, geolocation);
-    res.status(201).json(task);
+
+    const newTask = await taskRepository.add(req.body);
+    res.status(201).json(newTask);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -73,15 +70,11 @@ app.post('/tasks', async (req, res) => {
 
 app.put('/tasks/:id', async (req, res) => {
   try {
-    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    const requestBody = req.body;
-    const geolocation = await getGeolocation(clientIp);
-    logRequestDetails(clientIp, geolocation, requestBody);
-    const task = await taskRepository.replace(req.params.id, requestBody, clientIp, geolocation);
-    if (!task) {
+    const updatedTask = await taskRepository.replace(req.params.id, req.body);
+    if (!updatedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
-    res.json(task);
+    res.json(updatedTask);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -89,16 +82,11 @@ app.put('/tasks/:id', async (req, res) => {
 
 app.patch('/tasks/:id', async (req, res) => {
   try {
-    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    const requestBody = req.body;
-    const geolocation = await getGeolocation(clientIp);
-    logRequestDetails(clientIp, geolocation, requestBody);
-
-    const task = await taskRepository.update(req.params.id, requestBody, clientIp, geolocation);
-    if (!task) {
+    const updatedTask = await taskRepository.update(req.params.id, req.body);
+    if (!updatedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
-    res.json(task);
+    res.json(updatedTask);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -106,13 +94,8 @@ app.patch('/tasks/:id', async (req, res) => {
 
 app.delete('/tasks/:id', async (req, res) => {
   try {
-    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    const requestBody = req.body;
-    const geolocation = await getGeolocation(clientIp);
-    logRequestDetails(clientIp, geolocation, requestBody);
-
-    const task = await taskRepository.delete(req.params.id, clientIp, geolocation);
-    if (!task) {
+    const deleted = await taskRepository.delete(req.params.id);
+    if (!deleted) {
       return res.status(404).json({ message: 'Task not found' });
     }
     res.json({ message: 'Task deleted successfully' });
@@ -121,8 +104,10 @@ app.delete('/tasks/:id', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}
 
 export default app;
