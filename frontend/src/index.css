@@ -21,6 +21,7 @@ select {
   font-size: 1rem;
   padding: 0.5rem;
   cursor: pointer;
+  text-align: center;
 }
 
 .addButton, .editButton, .removeButton, .saveButton {
