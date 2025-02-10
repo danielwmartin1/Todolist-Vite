@@ -566,7 +566,7 @@ function List() {
             </div>
           </div>
         ) : (
-          <div className="noTasksMessage">No tasks available</div>
+          <div style={{ textAlign: "center", fontSize: "24px", fontStyle: "bold", margin: "1.5rem",  }} className="noTasksMessage">Wait while tasks load...</div>
         )}
       </div>
     </React.StrictMode>
