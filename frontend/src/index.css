@@ -37,6 +37,14 @@ select {
   transition: background-color 0.3s ease;
 }
 
+.addButton:hover, .editButton:hover, .removeButton:hover, .saveButton:hover {
+  transform: scale(1.05);
+}
+
+.addButton:active, .editButton:active, .removeButton:active, .saveButton:active {
+  transform: scale(0.95);
+}
+
 .addButton {
   background-color: #4CAF50;
 }
