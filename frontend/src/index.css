@@ -234,6 +234,14 @@ h1, h2 {
   text-shadow: -1.5px -1.5px 0 black, 1.5px -1.5px 0 black, -1.5px 1.5px 0 black, 1.5px 1.5px 0 black;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 5px ridge aqua;;
+}
+
 h2 {
   border-bottom: 2.5px ridge aqua;
   border-top: 2.5px ridge aqua;
