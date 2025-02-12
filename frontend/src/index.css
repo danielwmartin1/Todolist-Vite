@@ -249,7 +249,7 @@ h2 {
 
 .listItem {
   align-items: center;
-  background-color: #d6f9fa;
+  background-color: #ffe083b5;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -264,13 +264,7 @@ h2 {
   margin: 0;
 }
 
-.listItem:active,
-.listItem:active > * {
-  background-color: #9ff7e4;
-}
-
-.listItem:hover,
-.listItem:hover > * {
+.listItem:hover{
   background-color: #ebf79f;
 }
 
@@ -310,18 +304,6 @@ h2 {
   justify-content: center;
   flex-direction: row;
   cursor: pointer;
-}
-
-.projectTitle {
-  background-color: rgba(0, 30, 255, 0.845);
-  color: rgb(0, 255, 221);
-  font-family: 'Roboto', sans-serif;
-  font-size: 4rem;
-  font-weight: 700;
-  text-align: center;
-  width: 100%;
-  border-bottom: 5px ridge aqua;
-  text-shadow: -1.5px -1.5px 0 black, 1.5px -1.5px 0 black, -1.5px 1.5px 0 black, 1.5px 1.5px 0 black;
 }
 
 .sortBy {
@@ -368,7 +350,6 @@ h2 {
  
 .taskItem {
   align-items: center;
-  background-color: #d6f8fa;
   display: flex;
   gap: 1rem; 
   transition: background-color 0.3s ease;
