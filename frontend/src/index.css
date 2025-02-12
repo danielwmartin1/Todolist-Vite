@@ -225,9 +225,14 @@ h1, h2 {
   text-align: center;
 }
 
+h2 {
+  border-bottom: 2.5px ridge aqua;
+  border-top: 2.5px ridge aqua;
+}
+
 .listItem {
   align-items: center;
-  background-color: antiquewhite;
+  background-color: #d6f9fa;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -244,7 +249,7 @@ h1, h2 {
 
 .listItem:active,
 .listItem:active > * {
-  background-color: #bbefff;
+  background-color: #9ff7e4;
 }
 
 .listItem:hover,
@@ -322,7 +327,7 @@ h1, h2 {
 }
 
 .sortSection select {
-  border: 1px solid #ccc;
+  border: 1px solid black;
   border-radius: 5px;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
@@ -345,7 +350,7 @@ h1, h2 {
  
 .taskItem {
   align-items: center;
-  background-color: #faebd6;
+  background-color: #d6f8fa;
   display: flex;
   gap: 1rem; 
   transition: background-color 0.3s ease;
