@@ -26,7 +26,7 @@ function List() {
   const fetchData = async () => {
     setError(''); // Reset error message
     try {
-      const response = await axios.get(`${uri}/tasks`);
+      const response = await axios.get(`${uri}/tasks`, { timeout: 5000 });
       const sortedTaskList = response.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
       const formattedTaskList = sortedTaskList.map(task => ({
         ...task,
@@ -37,7 +37,11 @@ function List() {
       }));
       setTaskList(formattedTaskList);
     } catch (error) {
-      setError('Failed to fetch tasks');
+      if (error.code === 'ECONNABORTED') {
+        setError('Cannot reach database');
+      } else {
+        setError('Failed to fetch tasks');
+      }
     }
   };
 
@@ -60,7 +64,7 @@ function List() {
         title: newTask,
         dueDate,
         priority,
-      });
+      }, { timeout: 5000 });
       const formattedTask = {
         ...response.data,
         updatedAt: response.data.updatedAt ? format(toZonedTime(new Date(response.data.updatedAt), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null,
@@ -76,7 +80,11 @@ function List() {
       setPriority('Low');
       setError('');
     } catch (error) {
-      setError('Failed to add task');
+      if (error.code === 'ECONNABORTED') {
+        setError('Cannot reach database');
+      } else {
+        setError('Failed to add task');
+      }
     }
   };
 
@@ -122,7 +130,8 @@ function List() {
         dueDate: editedDueDate,
         priority: editedPriority
       }, {
-        headers: headers
+        headers: headers,
+        timeout: 5000
       });
       const updatedTaskList = taskList.map(task => 
         task._id === taskId ? {
@@ -140,7 +149,11 @@ function List() {
       setEditedPriority('Low');
       setError('');
     } catch (error) {
-      handleError(error);
+      if (error.code === 'ECONNABORTED') {
+        setError('Cannot reach database');
+      } else {
+        handleError(error);
+      }
     }
   };
 
@@ -164,7 +177,8 @@ function List() {
           'Client-Timezone': clientTimeZone, // Add client timezone
           'Geolocation': JSON.stringify(geolocation), // Add geolocation
           'Timezone': clientTimeZone // Add client timezone
-        }
+        },
+        timeout: 5000
       });
       const updatedTaskList = taskList.map((task) => {
         if (task._id === taskId) {
@@ -179,7 +193,11 @@ function List() {
       }).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
       setTaskList(updatedTaskList);
     } catch (error) {
-      handleError(error);
+      if (error.code === 'ECONNABORTED') {
+        setError('Cannot reach database');
+      } else {
+        handleError(error);
+      }
     }
   };
 
@@ -200,11 +218,16 @@ function List() {
           'Client-Timezone': clientTimeZone, // Add client timezone
           'Geolocation': JSON.stringify(geolocation), // Add geolocation
           'Timezone': clientTimeZone // Add client timezone
-        }
+        },
+        timeout: 5000
       });
       setTaskList(taskList.filter(task => task._id !== taskId));
     } catch (error) {
-      handleError(error);
+      if (error.code === 'ECONNABORTED') {
+        setError('Cannot reach database');
+      } else {
+        handleError(error);
+      }
     }
   };
 
@@ -566,7 +589,9 @@ function List() {
             </div>
           </div>
         ) : (
-          <div style={{ textAlign: "center", fontSize: "24px", fontStyle: "bold", margin: "1.5rem",  }} className="noTasksMessage">Wait while tasks load...</div>
+          <div style={{ textAlign: "center", fontSize: "24px", fontStyle: "bold", margin: "1.5rem",  }} className="noTasksMessage">
+            {error === 'Cannot reach database' ? 'Unable to reach database' : 'Wait while tasks load...'}
+          </div>
         )}
       </div>
     </React.StrictMode>

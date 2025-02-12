@@ -6,7 +6,7 @@ function Header() {
     <React.StrictMode>
       <header>
         <h1 className="projectTitle">
-          To-Do-List
+          React To-Do-List
         </h1>
       </header>
     </React.StrictMode>
