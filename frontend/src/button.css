@@ -1,0 +1,76 @@
+.addButton, .editButton, .removeButton, .saveButton {
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 2%;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover, .editButton:hover, .removeButton:hover, .saveButton:hover {
+  transform: scale(1.05);
+}
+
+.addButton:active, .editButton:active, .removeButton:active, .saveButton:active {
+  transform: scale(0.95);
+}
+
+.addButton {
+  background-color: #4CAF50;
+}
+
+.addButton:active {
+  border: 1px solid black;
+  color: black;
+  background-color: #50ea58;
+}
+
+.addButton:hover {
+  background-color: #419c46;
+}
+
+.editButton {
+  background-color: #007BFF;
+}
+
+.editButton:active {
+  background-color: rgb(255, 10, 255);
+  border: 1px solid black;
+  color: rgb(255, 0, 0);
+}
+
+.editButton:hover {
+  background-color: #0069d9;
+}
+
+.removeButton {
+  background-color: red;
+}
+
+.removeButton:active {
+  background-color: rgb(255, 10, 255);
+  border: 1px solid black;
+  color: blue;
+}
+
+.removeButton:hover {
+  background-color: rgb(200, 42, 42);
+}
+
+.saveButton {
+  background-color: #05c98b;
+}
+
+.saveButton:active {
+  background-color: #04a675;
+  border: 1px solid black;
+  color: rgb(25, 0, 255);
+}
+
+.saveButton:hover {
+  background-color: #04b981;
+}

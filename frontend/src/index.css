@@ -1,3 +1,5 @@
+@import './button.css';
+
 body {
   background-color: #afb2bc;
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -24,55 +26,6 @@ select {
   text-align: center;
 }
 
-.addButton, .editButton, .removeButton, .saveButton {
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  margin: 2%;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.addButton:hover, .editButton:hover, .removeButton:hover, .saveButton:hover {
-  transform: scale(1.05);
-}
-
-.addButton:active, .editButton:active, .removeButton:active, .saveButton:active {
-  transform: scale(0.95);
-}
-
-.addButton {
-  background-color: #4CAF50;
-}
-
-.addButton:active {
-  border: 1px solid black;
-  color: black;
-  background-color: #50ea58;
-}
-
-.addButton:hover {
-  background-color: #419c46;
-}
-
-.editButton {
-  background-color: #007BFF;
-}
-
-.editButton:active {
-  background-color: rgb(255, 10, 255);
-  border: 1px solid black;
-  color: rgb(255, 0, 0);
-}
-
-.editButton:hover {
-  background-color: #0069d9;
-}
-
 .inputContainer, .editContainer {
   align-items: center;
   justify-content: center;
@@ -92,34 +45,6 @@ select {
   margin: 2%;
   padding: 0.5rem 1rem;
   transition: background-color 0.3s ease;
-}
-
-.removeButton {
-  background-color: red;
-}
-
-.removeButton:active {
-  background-color: rgb(255, 10, 255);
-  border: 1px solid black;
-  color: blue;
-}
-
-.removeButton:hover {
-  background-color: rgb(200, 42, 42);
-}
-
-.saveButton {
-  background-color: #05c98b;
-}
-
-.saveButton:active {
-  background-color: #04a675;
-  border: 1px solid black;
-  color: rgb(25, 0, 255);
-}
-
-.saveButton:hover {
-  background-color: #04b981;
 }
 
 .architects-daughter-regular {
@@ -161,7 +86,6 @@ select {
   justify-content: center;
   margin: 0 5%;
 }
-
 
 .container {
   align-items: center;
@@ -286,7 +210,6 @@ h2 {
   font-size: 1.2rem !important;
   font-weight: bold !important;
   font-style: normal !important;
-
 }
 
 .priority {
@@ -396,7 +319,6 @@ ul {
   padding: 0;
 }
 
-
 footer {
   background-color: rgba(0, 30, 255, 0.845);
   color: rgb(0, 255, 221);
@@ -409,15 +331,8 @@ footer {
   border-top: 5px ridge aqua;
 }
 
-
-
 /* Media Queries */
 @media (max-width: 431px) {
-  .addButton, .editButton, .removeButton, .saveButton {
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
-
   .button {
     margin-left: 2%; /* Changed to percentage */
   }
@@ -491,11 +406,6 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .addButton, .editButton, .removeButton, .saveButton {
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
-
   .completedTaskTitle {
     font-size: 1.3rem;
   }
