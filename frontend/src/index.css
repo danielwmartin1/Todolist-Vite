@@ -215,8 +215,8 @@ select {
 }
 
 h1, h2 {
-  background-color: black;
-  color: white;
+  background-color: blue;
+  color: rgb(0, 255, 221);
   font-family: 'Roboto', sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
@@ -291,14 +291,14 @@ h1, h2 {
 }
 
 .projectTitle {
-  background-color: black;
-  color: white;
+  background-color: blue;
+  color: rgb(0, 255, 221);
   font-family: 'Roboto', sans-serif;
   font-size: 4rem;
   font-weight: 700;
   text-align: center;
   width: 100%;
-  border-bottom: 5px ridge hsl(46, 95%, 91%);
+  border-bottom: 5px ridge aqua;
 }
 
 .sortBy {
@@ -394,15 +394,15 @@ ul {
 
 
 footer {
-  background-color: black;
-  color: white;
+  background-color: blue;
+  color: rgb(0, 255, 221);
   font-family: 'Roboto', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
   padding: 0.1rem;
   text-align: center;
-  border-top: 5px ridge hsl(46, 95%, 91%);
+  border-top: 5px ridge aqua;
 }
 
 
