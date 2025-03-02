@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals'; // Import reportWebVitals for p
 const root = ReactDOM.createRoot(document.getElementById('root')); // Create root element
 root.render(
     <React.StrictMode>
-        <App /> // Render App component inside StrictMode
+        <App /> {/* Render App component */}
     </React.StrictMode>
 );
 
