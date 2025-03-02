@@ -1,7 +1,7 @@
 @import './button.css';
 
 body {
-  background-color: #b4b5b7;
+  background-color: #d8eaff;
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   padding: 0;
@@ -173,7 +173,7 @@ h2 {
 
 .listItem {
   align-items: center;
-  background-color: #b4b5b7;
+  background-color: #d8eaff;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
