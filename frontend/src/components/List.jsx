@@ -45,6 +45,7 @@ function List() {
     }
   };
 
+  // Fetch tasks when component mounts
   useEffect(() => {
     fetchData();
   }, []);
@@ -95,7 +96,6 @@ function List() {
     setEditedDueDate(task.dueDate ? new Date(task.dueDate).toISOString().slice(0, 10) : '');
     setEditedPriority(task.priority);
   };
-
 
   // Update Task (PUT)
   const updateTask = async (taskId) => {
@@ -156,8 +156,6 @@ function List() {
       }
     }
   };
-
-
 
   // Toggle completion status (PATCH)
   const toggleTaskCompletion = async (taskId, completed) => {
@@ -231,7 +229,6 @@ function List() {
     }
   };
 
-
   // Function to fetch client IP
   const fetchClientIp = async () => {
     try {
@@ -243,42 +240,39 @@ function List() {
     }
   };
 
-      // Function to fetch geolocation
-      const getGeolocation = async () => {
-        return new Promise((resolve) => {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const { latitude, longitude } = position.coords;
-                resolve({ latitude, longitude });
-              },
-              (error) => {
-                switch (error.code) {
-                  case error.PERMISSION_DENIED:
-                    console.error('Error getting geolocation: Permission denied');
-                    break;
-                  case error.POSITION_UNAVAILABLE:
-                    console.error('Error getting geolocation: Position unavailable');
-                    break;
-                  case error.TIMEOUT:
-                    console.error('Error getting geolocation: Timeout');
-                    break;
-                  default:
-                    console.error('Error getting geolocation:', error);
-                }
-                resolve({ latitude: 0, longitude: 0 });
-              },
-              { timeout: 10000 } // Increase timeout duration if needed
-            );
-          } else {
-            console.error('Geolocation is not supported by this browser.');
-            resolve({ latitude: 'Unknown', longitude: 'Unknown' });
-          }
-        });
-      };
-      
-
-
+  // Function to fetch geolocation
+  const getGeolocation = async () => {
+    return new Promise((resolve) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            resolve({ latitude, longitude });
+          },
+          (error) => {
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                console.error('Error getting geolocation: Permission denied');
+                break;
+              case error.POSITION_UNAVAILABLE:
+                console.error('Error getting geolocation: Position unavailable');
+                break;
+              case error.TIMEOUT:
+                console.error('Error getting geolocation: Timeout');
+                break;
+              default:
+                console.error('Error getting geolocation:', error);
+            }
+            resolve({ latitude: 0, longitude: 0 });
+          },
+          { timeout: 10000 } // Increase timeout duration if needed
+        );
+      } else {
+        console.error('Geolocation is not supported by this browser.');
+        resolve({ latitude: 'Unknown', longitude: 'Unknown' });
+      }
+    });
+  };
 
   // Handle errors
   const handleError = (error) => {
@@ -325,7 +319,7 @@ function List() {
     setFilterStatus(e.target.value);
   };
 
-  // Filter tasks
+  // Filter tasks based on completion status
   const filteredTasks = taskList.filter(task => {
     if (filterStatus === 'completed') {
       return task.completed;
@@ -336,7 +330,7 @@ function List() {
     }
   });
 
-  // Sort tasks
+  // Separate tasks into incomplete and completed
   const incompleteTasks = filteredTasks.filter(task => !task.completed);
   const completedTasks = filteredTasks.filter(task => task.completed);
 
