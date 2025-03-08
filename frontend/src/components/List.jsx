@@ -108,31 +108,12 @@ function List() {
       setError('Please choose a future date and time.');
       return;
     }
-    const clientIp = await fetchClientIp(); // Fetch client IP
-    const geolocation = await getGeolocation(); // Fetch geolocation
-    console.log('Geolocation:', geolocation); // Log geolocation
-    const formattedDueDate = editedDueDate && !isNaN(new Date(editedDueDate).getTime()) ? format(toZonedTime(new Date(new Date(editedDueDate).setDate(new Date(editedDueDate).getDate() + 1)), clientTimeZone), 'MMMM d, yyyy') : '';
-    console.log('IP:', clientIp); // Log client IP
-    console.log('Timezone:', clientTimeZone); // Log client timezone
-    console.log('Geolocation:', geolocation);
-    console.log('Request Body:', { title: editedTask, dueDate: formattedDueDate, priority: editedPriority }); // Log request body with formatted dueDate
-
     try {
-      const headers = {
-        'Content-Type': 'application/json',
-        'Client-IP': clientIp,
-        'Client-Timezone': clientTimeZone,
-        'Geolocation': JSON.stringify(geolocation),
-      };
-      console.log('Request Headers:', headers); // Log headers
       const response = await axios.put(`${uri}/tasks/${taskId}`, {
         title: editedTask,
         dueDate: editedDueDate,
         priority: editedPriority
-      }, {
-        headers: headers,
-        timeout: 5000
-      });
+      }, { timeout: 5000 });
       const updatedTaskList = taskList.map(task => 
         task._id === taskId ? {
           ...response.data,
@@ -160,24 +141,9 @@ function List() {
   // Toggle completion status (PATCH)
   const toggleTaskCompletion = async (taskId, completed) => {
     setError(''); // Reset error message
-    const clientIp = await fetchClientIp(); // Fetch client IP
-    const geolocation = await getGeolocation(); // Fetch geolocation
-    console.log('Geolocation:', geolocation); // Log geolocation
     const completedAtTimestamp = !completed ? format(toZonedTime(new Date(), clientTimeZone), 'MMMM d, yyyy h:mm a zzz') : null;
-    console.log('IP:', clientIp); // Log client IP
-    console.log('Timezone:', clientTimeZone); // Log client timezone
-    console.log('Request Body:', { completed: !completed, completedAt: completedAtTimestamp }); // Log request body
-
     try {
-      await axios.patch(`${uri}/tasks/${taskId}`, { completed: !completed, completedAt: completedAtTimestamp }, {
-        headers: {
-          'Client-IP': clientIp, // Add client IP
-          'Client-Timezone': clientTimeZone, // Add client timezone
-          'Geolocation': JSON.stringify(geolocation), // Add geolocation
-          'Timezone': clientTimeZone // Add client timezone
-        },
-        timeout: 5000
-      });
+      await axios.patch(`${uri}/tasks/${taskId}`, { completed: !completed, completedAt: completedAtTimestamp }, { timeout: 5000 });
       const updatedTaskList = taskList.map((task) => {
         if (task._id === taskId) {
           return { 
@@ -202,23 +168,8 @@ function List() {
   // Remove task (DELETE)
   const removeTask = async (taskId) => {
     setError(''); // Reset error message
-    const clientIp = await fetchClientIp(); // Fetch client IP
-    const geolocation = await getGeolocation(); // Fetch geolocation
-    console.log('Geolocation:', geolocation); // Log geolocation
-    console.log('IP:', clientIp); // Log client IP
-    console.log('Timezone:', clientTimeZone); // Log client timezone
-    console.log('Request Body:', { taskId }); // Log request body
-
     try {
-      await axios.delete(`${uri}/tasks/${taskId}`, {
-        headers: {
-          'Client-IP': clientIp, // Add client IP
-          'Client-Timezone': clientTimeZone, // Add client timezone
-          'Geolocation': JSON.stringify(geolocation), // Add geolocation
-          'Timezone': clientTimeZone // Add client timezone
-        },
-        timeout: 5000
-      });
+      await axios.delete(`${uri}/tasks/${taskId}`, { timeout: 5000 });
       setTaskList(taskList.filter(task => task._id !== taskId));
     } catch (error) {
       if (error.code === 'ECONNABORTED') {
